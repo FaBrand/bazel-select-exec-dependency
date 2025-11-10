@@ -1,0 +1,6 @@
+build:_common //:toolchain_consumer --platforms=//:my_platform --toolchain_resolution_debug=//:my_toolchain_type
+
+build:working --config=_common --extra_toolchains=//:working_toolchain
+build:broken --config=_common --extra_toolchains=//:broken_toolchain
+
+
