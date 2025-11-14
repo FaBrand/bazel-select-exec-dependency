@@ -1,4 +1,6 @@
 build:_common //:toolchain_consumer --platforms=//:my_platform --toolchain_resolution_debug=//:my_toolchain_type
+build:_common --extra_execution_platforms=//:exec_platform
+build:_common --host_platform=//:exec_platform
 
 build:working --config=_common --extra_toolchains=//:working_toolchain
 build:broken --config=_common --extra_toolchains=//:broken_toolchain

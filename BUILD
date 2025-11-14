@@ -6,6 +6,27 @@ exports_files([
     "windows_tool.bat",
 ])
 
+###################################
+# exec
+constraint_setting(
+    name = "exec_constraint",
+)
+
+constraint_value(
+    name = "some_exec_constraint",
+    constraint_setting = ":exec_constraint",
+)
+
+platform(
+    name = "exec_platform",
+    constraint_values = [
+        "some_exec_constraint",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+###################################
+# Target
 constraint_value(
     name = "some_cpu",
     constraint_setting = "@platforms//cpu",
@@ -38,8 +59,8 @@ toolchain_config(
 alias(
     name = "tool",
     actual = select({
-        "@platforms//os:linux": "//:linux_tool.bash",
-        "@platforms//os:windows": "//:windows_tool.bat",
+        ":some_exec_constraint": "//:some_special_tool.bash",
+        "//conditions:default": "//:linux_tool.bash",
     }),
 )
 
@@ -48,8 +69,8 @@ alias(
 toolchain_config(
     name = "broken_toolchain_config",
     tool = select({
-        "@platforms//os:linux": "//:linux_tool.bash",
-        "@platforms//os:windows": "//:windows_tool.bat",
+        ":some_exec_constraint": "//:some_special_tool.bash",
+        "//conditions:default": "//:linux_tool.bash",
     }),
 )
 
